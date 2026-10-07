@@ -32,11 +32,10 @@ object Config {
 
     const val COOLDOWN_MS = 2_000L
 
-    // Your display names on each app - bot will skip messages starting with these
+    // Add your own display names here - the bot will skip messages from these
     val MY_NAMES = setOf(
-        "Nguyen Bac Son",
-        "Sơn",
-        "Son",
+        "Your Name",
+        "Your Nickname",
     )
 
     // Remote commands (matched against message text from SELF sender)
