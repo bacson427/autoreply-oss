@@ -1,31 +1,19 @@
 # AutoReply OSS
 
-Open source AI auto-reply bot for Android.
+An open-source Android app that automatically replies to messages using AI. Powered by a serverless backend on Vercel with multi-provider AI fallback (Groq → Gemini → Cloudflare).
 
-## Cấu trúc
-- `server/` - Server Next.js (deploy lên Vercel)
-- `android/` - App Android (build APK)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Android-green.svg)
 
-## Cài đặt Server
-1. Fork repo này
-2. Vào https://vercel.com/new, import repo
-3. **Root Directory:** chọn `server`
-4. Tạo KV Storage (Upstash for Redis - Free)
-5. Thêm Environment Variables:
-   - `BOT_SECRET` = chuỗi bí mật tự đặt
-   - `GROQ_API_KEY` = key từ console.groq.com
-   - `GEMINI_API_KEY` = key từ Google AI Studio
-   - `CF_ACCOUNT_ID`, `CF_API_TOKEN` = Cloudflare Workers AI
-   - `GITHUB_REPO` = username/autoreply-oss
-6. Redeploy
+## Features
 
-## Build App Android
-1. Mở Android Studio, import thư mục `android/`
-2. Sửa `app/build.gradle.kts`:
-   - `SERVER_URL` = URL Vercel của bạn
-   - `BOT_SECRET` = chuỗi bạn đặt ở bước trên
-3. Build APK
-4. Cài lên máy, bật quyền thông báo
+- **Notification Listener**: Reads incoming messages from Messenger, Telegram, Discord, TikTok without root
+- **Multi-AI Fallback**: Tries Groq → Gemini → Cloudflare Workers AI automatically
+- **Per-Sender Memory**: Remembers the last 10 messages per contact for context-aware replies
+- **Remote Control**: Toggle bot on/off from any device via secret commands (`BAT_ALL`, `TAT_ALL`, etc.)
+- **Custom AI Personality**: Edit the system prompt directly in the app
+- **Scheduled Busy Mode**: Set time ranges when the bot sends a pre-defined "busy" message
+- **7-Day Log Retention**: Auto-deletes logs older than 7 days (Vercel KV with ZSET)
+- **Auto-Update**: GitHub Actions builds APK on every push, app checks for updates automatically
 
-## License
-MIT
+## Architecture
