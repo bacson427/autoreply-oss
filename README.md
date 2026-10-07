@@ -7,7 +7,7 @@ An open-source Android app that automatically replies to messages using AI. Powe
 
 ## Features
 
-- **Notification Listener**: Reads incoming messages from Messenger, Telegram, Discord, TikTok without root
+- **Notification Listener**: Reads incoming messages without root
 - **Multi-AI Fallback**: Tries Groq → Gemini → Cloudflare Workers AI automatically
 - **Per-Sender Memory**: Remembers the last 10 messages per contact for context-aware replies
 - **Remote Control**: Toggle bot on/off from any device via secret commands (`BAT_ALL`, `TAT_ALL`, etc.)
