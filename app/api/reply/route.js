@@ -1,8 +1,7 @@
 import { kv } from '@vercel/kv';
 
 const SYSTEM_PROMPT =
-  'Bạn là trợ lý nhắn tin tự động. Trả lời bằng tiếng Việt, ngắn gọn (1 câu), ' +
-  'tự nhiên, thân mật. Không xưng là AI. Không dùng markdown.';
+  '' + '';
 
 const OWNER_SENDER = 'SELF';
 const COMMANDS = new Set(['BAT_ALL', 'TAT_ALL', 'BAT_AI', 'TAT_AI', 'BAT_CHATBOT', 'TAT_CHATBOT']);
