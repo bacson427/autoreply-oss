@@ -57,7 +57,7 @@ async function buildMessages(sender, text, customPrompt) {
   const messages = [{ role: 'system', content: promptToUse }];
   for (const h of history.reverse()) {
     try {
-      const item = JSON.parse(h);
+      const item = typeof h === 'string' ? JSON.parse(h) : h;
       messages.push({ role: 'user', content: `${sender}: ${item.text}` });
       if (item.reply) messages.push({ role: 'assistant', content: item.reply });
     } catch (e) { /* skip malformed entries */ }
