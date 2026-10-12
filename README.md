@@ -1,26 +1,38 @@
 # AutoReply OSS
 
-🌐 **Website:** [nguyenbacson.io.vn](https://nguyenbacson.io.vn)
-
 An open-source Android app that automatically replies to messages using AI. Powered by a serverless backend on Vercel with multi-provider AI fallback (Groq → Gemini → Cloudflare).
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Android-green.svg)
+![Zero Login](https://img.shields.io/badge/auth-Zero%20Login%20Required-success.svg)
 
-> ⚠️ **Security warning:** Never commit your real `BOT_SECRET` or API keys to a public repository. Set server keys as environment variables on Vercel. The Android `BOT_SECRET` is compiled into the APK, so do not publish an APK built with your real secret.
+> 🛡️ **Privacy & Security:** Requires **ZERO social media logins**. The app listens directly to Android incoming notifications and replies through native notification actions. There is zero risk of account bans or credential leakage.
 
-## What this app does
+---
 
-- Reads incoming notifications from supported apps (Messenger, Telegram, Discord)
-- Sends the message to a Vercel serverless function
-- The server asks an AI provider (Groq → Gemini → Cloudflare fallback) for a reply
-- The reply is sent back through the notification's quick-reply action
-- Keeps the last messages per sender as context for the AI
-- Logs conversations to Vercel KV (log entries older than 7 days are removed)
+## ✨ Features
 
-**This is a minimal working base.** It has no settings screen, personality editor or scheduled mode: the app has three buttons (notification access, battery optimization, check for updates).
+- **🛡️ Zero Login Required:** Works directly via Android notifications. No need to log in to your social accounts.
+- **🌐 Universal App Support:** Supports ANY messaging app with an inline "Reply" action in notifications (Messenger, Telegram, Discord, TikTok, WhatsApp, etc.).
+- **⚙️ Full In-App Configuration (New):**
+  - Configure your **Vercel Server URL** and **Bot Secret** directly in the app. No need to recompile or edit source code!
+  - Built-in **"Test Server Connection"** button to verify connectivity instantly.
+  - Custom **AI Personality (Prompt)** editor.
+  - Custom **Busy Message** editor for away hours.
+  - **Supported Apps Selector:** Selectively pick which apps the bot should monitor.
+  - **Whitelist Contacts (`YES_NAME`):** Only auto-reply to specific senders.
+  - **Blacklist Contacts (`NO_NAME`):** Block auto-replies for unwanted senders.
+  - **Automated Busy Schedule:** Set scheduled hours during which the bot sends the busy message instead of AI replies.
+  - **Recognized Owner Names (`MY_NAMES`):** Automatically recognizes your outgoing messages to prevent self-reply loops.
+- **📋 In-App System Logs (New):**
+  - Real-time logging of incoming messages, AI responses, busy replies, and remote commands.
+  - One-click **"Copy Logs"** to clipboard and **"Clear Logs"** button.
+- **🛠️ Remote Control via Chat:** Control the bot remotely by sending text commands from your own account.
+- **🔄 Auto Update Checker:** Checks GitHub releases for app updates with one-tap installation.
 
-## Architecture
+---
+
+## 🏛️ System Architecture
 
 ```text
 ┌─────────────────┐         ┌──────────────────┐         ┌─────────────┐
@@ -33,216 +45,155 @@ An open-source Android app that automatically replies to messages using AI. Powe
 └─────────────────┘         │                  │
                             │  Vercel KV       │
                             │  (Redis)         │
+                            │  7-day retention │
                             └──────────────────┘
 ```
 
-## Requirements
+---
 
-- **Vercel** account (free tier is enough)
-- **Groq** API key, free at [console.groq.com](https://console.groq.com)
-- **Google AI Studio** API key, free at [aistudio.google.com](https://aistudio.google.com)
-- **Cloudflare** account, optional, for the 3rd fallback layer
-- **Android Studio** to build the app
+## 📋 Requirements
 
-## Server setup
+- **Vercel** account (free tier is sufficient).
+- **AI Provider API Key** (Groq free tier at [console.groq.com](https://console.groq.com) or Google Gemini at [aistudio.google.com](https://aistudio.google.com)).
+- **Android Device** running Android 10 (API 29) or higher.
+
+---
+
+## 🚀 Server Setup (Vercel)
 
 ### 1. Fork this repository
-
-Click **Fork** at the top right.
+Click **Fork** at the top right of the GitHub repository.
 
 ### 2. Deploy to Vercel
+1. Open [vercel.com/new](https://vercel.com/new).
+2. Import your forked repository.
+3. Set **Root Directory** to `server`.
+4. Click **Deploy**.
 
-1. Open [vercel.com/new](https://vercel.com/new)
-2. Import your forked repository
-3. Set **Root Directory** to `server`
-4. Click **Deploy**
+### 3. Create KV Storage (Redis)
+1. In your Vercel project dashboard, go to the **Storage** tab.
+2. Click **Create Database** → **Upstash for Redis**.
+3. Select your preferred region and the **Free** plan.
+4. Click **Connect Project** and select your server project.
 
-### 3. Create KV storage
-
-1. In your Vercel project, open the **Storage** tab
-2. Click **Create Database** → **Upstash for Redis**
-3. Pick the region closest to you
-4. Select the **Free** plan
-5. Click **Connect Project** and select your project
-
-### 4. Configure environment variables
-
-Go to **Settings → Environment Variables** and add:
+### 4. Configure Environment Variables
+Go to **Settings → Environment Variables** on Vercel and add:
 
 | Variable | Description |
-|----------|-------------|
-| `BOT_SECRET` | A long random secret string |
-| `GROQ_API_KEY` | Your Groq API key |
-| `GEMINI_API_KEY` | Your Google Gemini API key |
-| `CF_ACCOUNT_ID` | Cloudflare account ID (optional) |
-| `CF_API_TOKEN` | Cloudflare Workers AI token (optional) |
-| `GITHUB_REPO` | `your-username/autoreply-oss`, used by the update checker |
+|---|---|
+| `BOT_SECRET` | A long random secret string (e.g. `my_super_secret_token_123`) |
+| `GROQ_API_KEY` | Your Groq API key (optional if using Gemini) |
+| `GEMINI_API_KEY` | Your Google Gemini API key (optional if using Groq) |
+| `CF_ACCOUNT_ID` | Cloudflare account ID (optional fallback) |
+| `CF_API_TOKEN` | Cloudflare Workers AI token (optional fallback) |
+| `GITHUB_REPO` | `your-username/autoreply-oss` (used by app update checker) |
 
-Optional model overrides: `GROQ_MODEL`, `GEMINI_MODEL`, `CF_MODEL` (see `server/.env.example`).
+*Optional model overrides: `GROQ_MODEL`, `GEMINI_MODEL`, `CF_MODEL` (see `server/.env.example`).*
 
-### 5. Redeploy
+### 5. Redeploy Server
+Go to **Deployments** → Click the **•••** menu on the latest deployment → **Redeploy**.
 
-**Deployments** → 3-dot menu on the latest deployment → **Redeploy**.
-
-### 6. Test the server
-
+### 6. Test Server Connection
 ```bash
 curl -X POST https://your-project.vercel.app/api/reply \
   -H "Content-Type: application/json" \
   -H "x-bot-secret: YOUR_BOT_SECRET" \
   -d '{"sender":"Test","text":"hello"}'
 ```
-
 Expected response:
-
 ```json
-{"reply":"...","provider":"groq"}
+{"reply":"Hello! How can I help you today?","provider":"groq"}
 ```
 
-## Android app setup
+---
 
-### 1. Clone and open
+## 📱 Android App Setup
 
-```bash
-git clone https://github.com/your-username/autoreply-oss.git
-cd autoreply-oss/android
-```
+### Method 1: Install Prebuilt APK (Easiest)
+1. Download `app-debug.apk` from the latest GitHub Release or build artifact.
+2. Install the APK on your Android device.
+3. Open the app:
+   - Tap **Notification Access** and enable AutoReply.
+   - Tap **Disable Battery Opt** to ensure the background listener is not killed.
+4. Switch to the **SETTINGS** tab:
+   - Enter your **Vercel Backend URL** (e.g. `https://your-project.vercel.app`).
+   - Enter your **Bot Secret** (`x-bot-secret`).
+   - Tap **⚡ TEST SERVER CONNECTION** to verify.
+   - Tap **💾 SAVE ALL SETTINGS**.
 
-Open the `android/` folder in Android Studio.
+### Method 2: Build From Source (Android Studio)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/autoreply-oss.git
+   ```
+2. Open the `android/` directory in Android Studio.
+3. Build the APK:
+   ```bash
+   ./gradlew assembleDebug
+   ```
+4. Install on your connected device:
+   ```bash
+   adb install app/build/outputs/apk/debug/app-debug.apk
+   ```
 
-### 2. Configure server URL and secret
+---
 
-Edit `app/build.gradle.kts` and update the two `buildConfigField` lines:
+## 🛠️ Remote Control Commands
 
-```kotlin
-buildConfigField("String", "SERVER_URL", "\"https://your-project.vercel.app/api/reply\"")
-buildConfigField("String", "BOT_SECRET", "\"YOUR_BOT_SECRET\"")
-```
+You can control the bot remotely by sending text messages to yourself or from an authorized sender (`MY_NAMES`) in a 1-on-1 chat:
 
-⚠️ Do not commit real values. Set them right before building and revert (`git checkout app/build.gradle.kts`) before you commit. Note that the GitHub Action builds and publishes an APK on every push to `android/**`, so a real secret in the repository ends up public.
+| Command | Action |
+|---|---|
+| `STATUS` or `CHECK` | Receive an instant system status report (switches, names, prompt, chatbot message) |
+| `ENABLE_ALL` | Turn master switch ON |
+| `DISABLE_ALL` | Turn master switch OFF |
+| `ENABLE_AI` | Turn AI auto-reply ON |
+| `DISABLE_AI` | Turn AI auto-reply OFF |
+| `ENABLE_CHATBOT` | Turn busy chatbot ON |
+| `DISABLE_CHATBOT` | Turn busy chatbot OFF |
+| `CHATBOT: <message>` | Update the busy reply message |
+| `AI: <prompt>` | Update the AI personality/system prompt |
+| `YES_NAME: <names>` | Whitelist contacts (comma-separated; empty to clear) |
+| `NO_NAME: <names>` | Blacklist contacts (comma-separated; empty to clear) |
+| `MY_NAME: <names>` | Update recognized owner names |
+| `HELP` | Show available commands |
 
-### 3. Set your own names
+---
 
-In `ReplyService.kt`, replace the placeholders in `Config.MY_NAMES` with your display name(s). The bot uses this list to recognize your own messages.
-
-### 4. Build APK
-
-```bash
-./gradlew assembleDebug
-```
-
-Or use Android Studio: **Build → Build Bundle(s) / APK(s) → Build APK(s)**.
-
-### 5. Install on device
-
-```bash
-adb install app/build/outputs/apk/debug/app-debug.apk
-```
-
-### 6. Grant permissions
-
-1. Open the app
-2. Tap **Grant Notification Access** and enable AutoReply
-3. Tap **Disable Battery Optimization** (important on Samsung / Xiaomi)
-4. Optional: tap **Check for Updates** to test the update endpoint
-
-## Remote control
-
-Messages you send yourself are matched against the commands below. Detection relies on the notification text starting with `You:` / `Bạn:` or one of your names in `MY_NAMES`, and only works in one-to-one chats (group notifications are ignored).
-
-| Command | Effect |
-|---------|--------|
-| `BAT_ALL` | Enable everything |
-| `TAT_ALL` | Disable everything |
-| `BAT_CHATBOT` | Enable auto-reply |
-| `TAT_CHATBOT` | Disable auto-reply |
-| `BAT_AI` | Enable AI replies |
-| `TAT_AI` | Disable AI (the bot sends a canned busy message) |
-
-The resulting status is written to Logcat (tag `AutoReply`). The bot does not post it in the chat.
-
-## Server endpoints
+## 🔗 Server Endpoints
 
 All endpoints except `/api/version` require the `x-bot-secret` header.
 
-| Method | Path | Purpose |
-|--------|------|---------|
-| POST | `/api/reply` | Main endpoint. Body: `{sender, text, prompt?}` |
-| POST | `/api/logs` | Store a log entry and drop entries older than 7 days |
-| GET | `/api/logs` | Read recent logs (`limit`, default 50, max 500) |
-| GET | `/api/version` | Latest GitHub release tag and APK URL (no secret needed) |
-| POST | `/api/log-self` | Store your own outgoing message as context |
-| POST | `/api/log-reply` | Push an entry to a separate `logs` list (the app does not call it) |
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/api/reply` | Generates AI reply for incoming message |
+| `POST` | `/api/logs` | Stores activity log (auto-expires after 7 days) |
+| `GET` | `/api/logs` | Fetches recent activity logs |
+| `GET` | `/api/version` | Returns latest GitHub release version tag and APK download URL |
+| `POST` | `/api/log-self` | Stores outgoing messages as context |
+| `POST` | `/api/log-reply` | Stores bot replies in conversation history |
 
-View recent logs:
+---
 
-```bash
-curl https://your-project.vercel.app/api/logs \
-  -H "x-bot-secret: YOUR_BOT_SECRET"
-```
+## 🛠️ Troubleshooting
 
-## Project structure
+- **Bot does not reply:**
+  - Verify Notification Access is granted in Android Settings.
+  - Verify battery optimization is disabled (set to "Unrestricted").
+  - Test `/api/reply` using the in-app **"TEST SERVER CONNECTION"** button in the Settings tab.
+- **HTTP 401 Unauthorized:**
+  - The `Bot Secret` in the Android app does not match `BOT_SECRET` in your Vercel Environment Variables.
+- **All AI Providers Failed:**
+  - Your AI provider quota may be exhausted or the API key is incorrect. Check your Vercel deployment logs for exact error details.
+- **Xiaomi / Samsung / Oppo background kills:**
+  - Add AutoReply to AutoStart / Background Unrestricted list and lock the app in the recent apps overview.
 
-```text
-autoreply-oss/
-├── server/                    # Next.js backend
-│   ├── app/api/
-│   │   ├── reply/             # Main AI reply endpoint
-│   │   ├── logs/              # Log storage (7-day retention)
-│   │   ├── version/           # App update check
-│   │   ├── log-self/          # Store outgoing messages
-│   │   └── log-reply/         # Extra log list (unused by the app)
-│   ├── package.json
-│   └── .env.example
-├── android/                   # Android app (Kotlin)
-│   ├── app/src/main/
-│   │   ├── java/io/github/autoreply/oss/
-│   │   │   ├── MainActivity.kt
-│   │   │   ├── ReplyService.kt
-│   │   │   └── UpdateChecker.kt
-│   │   └── AndroidManifest.xml
-│   └── build.gradle.kts
-├── .github/workflows/
-│   └── build-apk.yml          # Auto-build APK on push
-└── LICENSE
-```
+---
 
-## Troubleshooting
+## 📄 License
 
-### Bot does not reply
+This project is licensed under the [MIT License](LICENSE).
 
-- Confirm notification access is granted (Settings → Notifications → Notification access)
-- Disable battery optimization for AutoReply
-- Filter Logcat by tag `AutoReply`
-- Verify `/api/reply` returns valid JSON
+## ⚠️ Disclaimer
 
-### `unauthorized` error
-
-The `BOT_SECRET` in the app does not match the one set on Vercel.
-
-### `all providers failed`
-
-All three AI providers (Groq / Gemini / Cloudflare) are down, out of quota, or returned an empty reply. Check Vercel logs for the exact error.
-
-### Samsung / Xiaomi kills the service
-
-Add AutoReply to the **Unrestricted** battery list and remove it from Sleeping apps / Deep sleeping apps.
-
-## Known limitations
-
-- Per-sender history keeps the last 20 entries (the 10 most recent are sent to the AI). History entries have no expiry; only `/api/logs` entries are removed after 7 days.
-- Messages from third parties (sender names and text) are stored in your Vercel KV. Use this only if that is acceptable for you and the people you chat with.
-- Auto-update: the debug APK is signed with a per-runner debug keystore, so installing a new APK over an old one may fail with `INSTALL_FAILED_UPDATE_INCOMPATIBLE`. Uninstall the old app first, or set up a fixed release keystore in GitHub Secrets.
-- Update notifications on Android 13+ need the notification permission, which the app does not request at runtime.
-
-## Contributing
-
-Pull requests are welcome. For major changes, open an issue first to discuss what you'd like to change.
-
-## License
-
-MIT
-
-## Disclaimer
-
-This project is for personal use only. Auto-reply bots may violate the Terms of Service of some messaging platforms. Use it responsibly and never at scale on platforms that forbid automation.
+This project is intended for personal use and automation assistance. Always comply with the Terms of Service of the respective messaging platforms. Use responsibly.
