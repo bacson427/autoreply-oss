@@ -140,23 +140,25 @@ Expected response:
 
 ## 🛠️ Remote Control Commands
 
-You can control the bot remotely by sending text messages to yourself or from an authorized sender (`MY_NAMES`) in a 1-on-1 chat:
+Control your bot remotely in real-time by sending text messages to yourself or from an authorized owner account (configured in `MY_NAMES`) inside any messaging app:
 
-| Command | Action |
-|---|---|
-| `STATUS` or `CHECK` | Receive an instant system status report (switches, names, prompt, chatbot message) |
-| `ENABLE_ALL` | Turn master switch ON |
-| `DISABLE_ALL` | Turn master switch OFF |
-| `ENABLE_AI` | Turn AI auto-reply ON |
-| `DISABLE_AI` | Turn AI auto-reply OFF |
-| `ENABLE_CHATBOT` | Turn busy chatbot ON |
-| `DISABLE_CHATBOT` | Turn busy chatbot OFF |
-| `CHATBOT: <message>` | Update the busy reply message |
-| `AI: <prompt>` | Update the AI personality/system prompt |
-| `YES_NAME: <names>` | Whitelist contacts (comma-separated; empty to clear) |
-| `NO_NAME: <names>` | Blacklist contacts (comma-separated; empty to clear) |
-| `MY_NAME: <names>` | Update recognized owner names |
-| `HELP` | Show available commands |
+| Command | Action | Example |
+|---|---|---|
+| `STATUS` or `CHECK` | Receive an instant live diagnostic report (switches, names, prompt, busy message) | `STATUS` |
+| `ENABLE_ALL` | Master switch ON: Activates automated message processing and AI responses | `ENABLE_ALL` |
+| `DISABLE_ALL` | Master switch OFF: Completely silences all auto-replies across all apps | `DISABLE_ALL` |
+| `ENABLE_AI` | Turn smart AI auto-reply ON (Groq &rarr; Gemini &rarr; Cloudflare fallback) | `ENABLE_AI` |
+| `DISABLE_AI` | Turn smart AI auto-reply OFF | `DISABLE_AI` |
+| `ENABLE_CHATBOT` | Turn busy auto-responder ON (sends template message instead of AI) | `ENABLE_CHATBOT` |
+| `DISABLE_CHATBOT` | Turn busy auto-responder OFF | `DISABLE_CHATBOT` |
+| `CHATBOT: <message>` | Update the custom busy reply message | `CHATBOT: Currently in a meeting, will reply shortly!` |
+| `AI: <prompt>` | Dynamically update the AI personality &amp; system instructions | `AI: You are a friendly, witty assistant. Reply naturally in 1 concise sentence.` |
+| `YES_NAME: <names>` | Whitelist contacts: Only auto-reply to listed senders (comma-separated; send empty `YES_NAME:` to clear) | `YES_NAME: Alice, Bob, Charlie` |
+| `NO_NAME: <names>` | Blacklist contacts: Block auto-replies for unwanted senders (comma-separated; send empty `NO_NAME:` to clear) | `NO_NAME: Spammer, AdBot, Marketing` |
+| `MY_NAME: <names>` | Update recognized owner names to prevent self-reply spam loops | `MY_NAME: Admin, Alex` |
+| `HELP` | Show available remote command list and syntax | `HELP` |
+
+> 💡 **Tip:** Send `YES_NAME:` or `NO_NAME:` (with nothing after the colon) to instantly clear the respective filter.
 
 ---
 
