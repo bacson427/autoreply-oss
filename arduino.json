@@ -1,20 +1,8 @@
+Code đã được kiểm tra qua bằng AI đa lớp.
+
 BÀI 1: ĐIỀU KHIỂN LED (Chân 2 → 11)
-Bài mẫu: 1 LED nhấp nháy (Chân 6)
-cpp
-int led = 6;
-
-void setup() {
-  pinMode(led, OUTPUT);
-}
-
-void loop() {
-  digitalWrite(led, HIGH);   // Bật LED
-  delay(1000);               // Chờ 1 giây
-  digitalWrite(led, LOW);    // Tắt LED
-  delay(1000);               // Chờ 1 giây
-}
 BT1a: 10 đèn sáng tắt cùng lúc
-cpp
+
 void setup() {
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -55,8 +43,9 @@ void loop() {
   digitalWrite(11, LOW);
   delay(500);
 }
+
 BT1b: Chớp tắt lần lượt 1 → 10 → 1 → 10…
-cpp
+
 void setup() {
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -94,8 +83,9 @@ void loop() {
   digitalWrite(3, HIGH);  delay(150); digitalWrite(3, LOW);
   digitalWrite(2, HIGH);  delay(150); digitalWrite(2, LOW);
 }
+
 BT2a: Đèn 1→10 sáng, rồi 1→10 tắt, lặp lại
-cpp
+
 void setup() {
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -135,7 +125,7 @@ void loop() {
   digitalWrite(11, LOW); delay(200);
 }
 BT2b: Chớp tắt ngẫu nhiên 1 đèn bất kỳ
-cpp
+
 void setup() {
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -158,28 +148,11 @@ void loop() {
   digitalWrite(p, LOW);
   delay(100);
 }
+
 BÀI 2: NÚT NHẤN ĐIỀU KHIỂN LED
-Bài mẫu: 1 nút nhấn (Chân 2), 1 LED (Chân 5)
-cpp
-int button = 2;
-int led = 5;
 
-void setup() {
-  pinMode(button, INPUT);
-  pinMode(led, OUTPUT);
-}
-
-void loop() {
-  int buttonStatus = digitalRead(button);
-
-  if (buttonStatus == HIGH) {
-    digitalWrite(led, HIGH);   // Nếu nhấn nút thì bật LED
-  } else {
-    digitalWrite(led, LOW);    // Không nhấn thì tắt LED
-  }
-}
 BT1: 8 LED (Chân 2→9) + 4 nút S1..S4 (Chân 10, 11, 12, 13)
-cpp
+
 #define S1 10
 #define S2 11
 #define S3 12
@@ -240,7 +213,7 @@ void loop() {
   }
 }
 BT2: 8 LED (Chân 2→9) + 2 nút S1 (Chân 10), S2 (Chân 11)
-cpp
+
 #define S1 10
 #define S2 11
 
@@ -294,20 +267,10 @@ void loop() {
     digitalWrite(5, HIGH); digitalWrite(6, HIGH); delay(400);
   }
 }
+
 BÀI 3: BUZZER / CÒI (Chân 8)
-Bài mẫu: Buzzer kêu 1000Hz trong 500ms
-cpp
-int buzzer = 8;
-
-void setup() {
-}
-
-void loop() {
-  tone(buzzer, 1000, 500);
-  delay(1000);
-}
 BT1: 4 nút (Chân 2,3,4,5) = 4 âm khác nhau (Đô, Rê, Mi, Fa)
-cpp
+
 #define BUZZER 8
 #define B1 2
 #define B2 3
@@ -334,8 +297,9 @@ void loop() {
     noTone(BUZZER);
   }
 }
+
 BT2: Bản nhạc yêu thích (Twinkle Twinkle)
-cpp
+
 const int buzzerPin = 8;
 
 #define NOTE_C4 262
@@ -367,8 +331,9 @@ void loop() {
   }
   delay(3000);
 }
+
 BT3: Happy Birthday (Chép y sách)
-cpp
+
 const int buzzerPin = 8;
 
 #define NOTE_C4 262
@@ -406,11 +371,11 @@ void loop() {
   }
   delay(5000);
 }
+
 BÀI 4: MÀN HÌNH LCD 16x2
-(Giả định: RS=12, RW=GND, E=11, D0→D7 = 0→7. Nút S1=8, S2=9)
 
 BT1: Hiển thị HỌ TÊN / MÃ SV / LỚP
-cpp
+
 #include <LiquidCrystal.h>
 
 LiquidCrystal lcd(12, 255, 11, 0, 1, 2, 3, 4, 5, 6, 7);
@@ -428,7 +393,7 @@ void setup() {
 void loop() {
 }
 BT2: Bộ đếm lên/xuống 8 bit (Bắt đầu từ 3 số cuối MSSV)
-cpp
+
 #include <LiquidCrystal.h>
 
 LiquidCrystal lcd(12, 255, 11, 0, 1, 2, 3, 4, 5, 6, 7);
@@ -490,7 +455,6 @@ void loop() {
 BÀI 5: CẢM BIẾN NHIỆT ĐỘ LM35 + LCD
 (LM35: Chân 1 → 5V, Chân 2 → A0, Chân 3 → GND. LCD nối giống Bài 4)
 
-cpp
 #include <LiquidCrystal.h>
 
 LiquidCrystal lcd(12, 255, 11, 0, 1, 2, 3, 4, 5, 6, 7);
