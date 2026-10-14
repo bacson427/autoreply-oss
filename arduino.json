@@ -1,0 +1,519 @@
+BÀI 1: ĐIỀU KHIỂN LED (Chân 2 → 11)
+Bài mẫu: 1 LED nhấp nháy (Chân 6)
+cpp
+int led = 6;
+
+void setup() {
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(led, HIGH);   // Bật LED
+  delay(1000);               // Chờ 1 giây
+  digitalWrite(led, LOW);    // Tắt LED
+  delay(1000);               // Chờ 1 giây
+}
+BT1a: 10 đèn sáng tắt cùng lúc
+cpp
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+}
+
+void loop() {
+  // Bật tất cả 10 đèn
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  digitalWrite(9, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, HIGH);
+  delay(500);
+
+  // Tắt tất cả 10 đèn
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(11, LOW);
+  delay(500);
+}
+BT1b: Chớp tắt lần lượt 1 → 10 → 1 → 10…
+cpp
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+}
+
+void loop() {
+  // Chạy từ đèn 1 đến đèn 10
+  digitalWrite(2, HIGH);  delay(150); digitalWrite(2, LOW);
+  digitalWrite(3, HIGH);  delay(150); digitalWrite(3, LOW);
+  digitalWrite(4, HIGH);  delay(150); digitalWrite(4, LOW);
+  digitalWrite(5, HIGH);  delay(150); digitalWrite(5, LOW);
+  digitalWrite(6, HIGH);  delay(150); digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);  delay(150); digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);  delay(150); digitalWrite(8, LOW);
+  digitalWrite(9, HIGH);  delay(150); digitalWrite(9, LOW);
+  digitalWrite(10, HIGH); delay(150); digitalWrite(10, LOW);
+  digitalWrite(11, HIGH); delay(150); digitalWrite(11, LOW);
+
+  // Chạy ngược từ đèn 10 về đèn 1
+  digitalWrite(10, HIGH); delay(150); digitalWrite(10, LOW);
+  digitalWrite(9, HIGH);  delay(150); digitalWrite(9, LOW);
+  digitalWrite(8, HIGH);  delay(150); digitalWrite(8, LOW);
+  digitalWrite(7, HIGH);  delay(150); digitalWrite(7, LOW);
+  digitalWrite(6, HIGH);  delay(150); digitalWrite(6, LOW);
+  digitalWrite(5, HIGH);  delay(150); digitalWrite(5, LOW);
+  digitalWrite(4, HIGH);  delay(150); digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);  delay(150); digitalWrite(3, LOW);
+  digitalWrite(2, HIGH);  delay(150); digitalWrite(2, LOW);
+}
+BT2a: Đèn 1→10 sáng, rồi 1→10 tắt, lặp lại
+cpp
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+}
+
+void loop() {
+  // Sáng dần từ đèn 1 đến đèn 10
+  digitalWrite(2, HIGH);  delay(200);
+  digitalWrite(3, HIGH);  delay(200);
+  digitalWrite(4, HIGH);  delay(200);
+  digitalWrite(5, HIGH);  delay(200);
+  digitalWrite(6, HIGH);  delay(200);
+  digitalWrite(7, HIGH);  delay(200);
+  digitalWrite(8, HIGH);  delay(200);
+  digitalWrite(9, HIGH);  delay(200);
+  digitalWrite(10, HIGH); delay(200);
+  digitalWrite(11, HIGH); delay(200);
+
+  // Tắt dần từ đèn 1 đến đèn 10
+  digitalWrite(2, LOW);  delay(200);
+  digitalWrite(3, LOW);  delay(200);
+  digitalWrite(4, LOW);  delay(200);
+  digitalWrite(5, LOW);  delay(200);
+  digitalWrite(6, LOW);  delay(200);
+  digitalWrite(7, LOW);  delay(200);
+  digitalWrite(8, LOW);  delay(200);
+  digitalWrite(9, LOW);  delay(200);
+  digitalWrite(10, LOW); delay(200);
+  digitalWrite(11, LOW); delay(200);
+}
+BT2b: Chớp tắt ngẫu nhiên 1 đèn bất kỳ
+cpp
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  randomSeed(analogRead(A0));
+}
+
+void loop() {
+  int p = random(2, 12);   // Chọn ngẫu nhiên từ 2 đến 11
+
+  digitalWrite(p, HIGH);
+  delay(300);
+  digitalWrite(p, LOW);
+  delay(100);
+}
+BÀI 2: NÚT NHẤN ĐIỀU KHIỂN LED
+Bài mẫu: 1 nút nhấn (Chân 2), 1 LED (Chân 5)
+cpp
+int button = 2;
+int led = 5;
+
+void setup() {
+  pinMode(button, INPUT);
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  int buttonStatus = digitalRead(button);
+
+  if (buttonStatus == HIGH) {
+    digitalWrite(led, HIGH);   // Nếu nhấn nút thì bật LED
+  } else {
+    digitalWrite(led, LOW);    // Không nhấn thì tắt LED
+  }
+}
+BT1: 8 LED (Chân 2→9) + 4 nút S1..S4 (Chân 10, 11, 12, 13)
+cpp
+#define S1 10
+#define S2 11
+#define S3 12
+#define S4 13
+
+void tatTatCaDen() {
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+}
+
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+
+  pinMode(S1, INPUT);
+  pinMode(S2, INPUT);
+  pinMode(S3, INPUT);
+  pinMode(S4, INPUT);
+
+  tatTatCaDen();
+}
+
+void loop() {
+  if (digitalRead(S1) == HIGH) {
+    tatTatCaDen();
+    digitalWrite(2, HIGH);
+    digitalWrite(3, HIGH);
+    digitalWrite(4, HIGH);
+  }
+
+  if (digitalRead(S2) == HIGH) {
+    tatTatCaDen();
+    digitalWrite(5, HIGH);
+    digitalWrite(6, HIGH);
+    digitalWrite(7, HIGH);
+  }
+
+  if (digitalRead(S3) == HIGH) {
+    tatTatCaDen();
+    digitalWrite(8, HIGH);
+    digitalWrite(9, HIGH);
+  }
+
+  if (digitalRead(S4) == HIGH) {
+    tatTatCaDen();
+  }
+}
+BT2: 8 LED (Chân 2→9) + 2 nút S1 (Chân 10), S2 (Chân 11)
+cpp
+#define S1 10
+#define S2 11
+
+void tatTatCaDen() {
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+}
+
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+
+  pinMode(S1, INPUT);
+  pinMode(S2, INPUT);
+}
+
+void loop() {
+  // Nút S1: Sáng dần từ đèn 1 đến đèn 8
+  if (digitalRead(S1) == HIGH) {
+    tatTatCaDen();
+
+    digitalWrite(2, HIGH); delay(300);
+    digitalWrite(3, HIGH); delay(300);
+    digitalWrite(4, HIGH); delay(300);
+    digitalWrite(5, HIGH); delay(300);
+    digitalWrite(6, HIGH); delay(300);
+    digitalWrite(7, HIGH); delay(300);
+    digitalWrite(8, HIGH); delay(300);
+    digitalWrite(9, HIGH); delay(300);
+  }
+
+  // Nút S2: Sáng từng đôi từ ngoài vào (1-8, 2-7, 3-6, 4-5)
+  if (digitalRead(S2) == HIGH) {
+    tatTatCaDen();
+
+    digitalWrite(2, HIGH); digitalWrite(9, HIGH); delay(400);
+    digitalWrite(3, HIGH); digitalWrite(8, HIGH); delay(400);
+    digitalWrite(4, HIGH); digitalWrite(7, HIGH); delay(400);
+    digitalWrite(5, HIGH); digitalWrite(6, HIGH); delay(400);
+  }
+}
+BÀI 3: BUZZER / CÒI (Chân 8)
+Bài mẫu: Buzzer kêu 1000Hz trong 500ms
+cpp
+int buzzer = 8;
+
+void setup() {
+}
+
+void loop() {
+  tone(buzzer, 1000, 500);
+  delay(1000);
+}
+BT1: 4 nút (Chân 2,3,4,5) = 4 âm khác nhau (Đô, Rê, Mi, Fa)
+cpp
+#define BUZZER 8
+#define B1 2
+#define B2 3
+#define B3 4
+#define B4 5
+
+void setup() {
+  pinMode(B1, INPUT);
+  pinMode(B2, INPUT);
+  pinMode(B3, INPUT);
+  pinMode(B4, INPUT);
+}
+
+void loop() {
+  if (digitalRead(B1) == HIGH) {
+    tone(BUZZER, 262);   // Nốt Đô
+  } else if (digitalRead(B2) == HIGH) {
+    tone(BUZZER, 294);   // Nốt Rê
+  } else if (digitalRead(B3) == HIGH) {
+    tone(BUZZER, 330);   // Nốt Mi
+  } else if (digitalRead(B4) == HIGH) {
+    tone(BUZZER, 349);   // Nốt Fa
+  } else {
+    noTone(BUZZER);
+  }
+}
+BT2: Bản nhạc yêu thích (Twinkle Twinkle)
+cpp
+const int buzzerPin = 8;
+
+#define NOTE_C4 262
+#define NOTE_D4 294
+#define NOTE_E4 330
+#define NOTE_F4 349
+#define NOTE_G4 392
+#define NOTE_A4 440
+
+int melody[] = {
+  NOTE_C4, NOTE_C4, NOTE_G4, NOTE_G4, NOTE_A4, NOTE_A4, NOTE_G4,
+  NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4, NOTE_D4, NOTE_D4, NOTE_C4
+};
+
+int noteDurations[] = {
+  4, 4, 4, 4, 4, 4, 2,
+  4, 4, 4, 4, 4, 4, 2
+};
+
+void setup() {
+}
+
+void loop() {
+  for (int thisNote = 0; thisNote < 14; thisNote++) {
+    int noteDuration = 1000 / noteDurations[thisNote];
+    tone(buzzerPin, melody[thisNote], noteDuration);
+    delay(noteDuration * 1.30);
+    noTone(buzzerPin);
+  }
+  delay(3000);
+}
+BT3: Happy Birthday (Chép y sách)
+cpp
+const int buzzerPin = 8;
+
+#define NOTE_C4 262
+#define NOTE_D4 294
+#define NOTE_E4 330
+#define NOTE_F4 349
+#define NOTE_G4 392
+#define NOTE_A4 440
+#define NOTE_B4 494
+#define NOTE_C5 523
+
+int melody[] = {
+  NOTE_C4, NOTE_C4, NOTE_D4, NOTE_C4, NOTE_F4, NOTE_E4,
+  NOTE_C4, NOTE_C4, NOTE_D4, NOTE_C4, NOTE_G4, NOTE_F4,
+  NOTE_C4, NOTE_C4, NOTE_C5, NOTE_A4, NOTE_F4, NOTE_E4, NOTE_D4,
+  NOTE_B4, NOTE_B4, NOTE_A4, NOTE_F4, NOTE_G4, NOTE_F4
+};
+
+int noteDurations[] = {
+  4, 4, 2, 2, 2, 1,
+  4, 4, 2, 2, 2, 1,
+  4, 4, 2, 2, 2, 2, 2,
+  4, 4, 2, 2, 2, 1
+};
+
+void setup() {
+}
+
+void loop() {
+  for (int thisNote = 0; thisNote < 25; thisNote++) {
+    int noteDuration = 1000 / noteDurations[thisNote];
+    tone(buzzerPin, melody[thisNote], noteDuration);
+    delay(noteDuration * 1.30);
+    noTone(buzzerPin);
+  }
+  delay(5000);
+}
+BÀI 4: MÀN HÌNH LCD 16x2
+(Giả định: RS=12, RW=GND, E=11, D0→D7 = 0→7. Nút S1=8, S2=9)
+
+BT1: Hiển thị HỌ TÊN / MÃ SV / LỚP
+cpp
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 255, 11, 0, 1, 2, 3, 4, 5, 6, 7);
+
+void setup() {
+  lcd.begin(16, 2);
+
+  lcd.setCursor(0, 0);
+  lcd.print("NGUYEN VAN A");      // Dòng 1: Họ tên (không dấu)
+
+  lcd.setCursor(0, 1);
+  lcd.print("MSV:12345 L:12A");   // Dòng 2: Mã SV + Lớp
+}
+
+void loop() {
+}
+BT2: Bộ đếm lên/xuống 8 bit (Bắt đầu từ 3 số cuối MSSV)
+cpp
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 255, 11, 0, 1, 2, 3, 4, 5, 6, 7);
+
+#define S1 8
+#define S2 9
+
+int count = 129;   // ĐỔI THÀNH 3 SỐ CUỐI MSSV CỦA BẠN
+
+void hienThi() {
+  lcd.setCursor(0, 1);
+  lcd.print("                ");   // Xóa dòng 2
+
+  lcd.setCursor(0, 1);
+  lcd.print(count);                // In số thập phân
+
+  lcd.setCursor(5, 1);
+  lcd.print(bitRead(count, 7));
+  lcd.print(bitRead(count, 6));
+  lcd.print(bitRead(count, 5));
+  lcd.print(bitRead(count, 4));
+  lcd.print(bitRead(count, 3));
+  lcd.print(bitRead(count, 2));
+  lcd.print(bitRead(count, 1));
+  lcd.print(bitRead(count, 0));
+}
+
+void setup() {
+  pinMode(S1, INPUT);
+  pinMode(S2, INPUT);
+
+  lcd.begin(16, 2);
+
+  lcd.setCursor(0, 0);
+  lcd.print("S1:UP  S2:down");
+
+  hienThi();
+}
+
+void loop() {
+  if (digitalRead(S1) == HIGH) {
+    if (count < 255) {
+      count = count + 1;
+    }
+    hienThi();
+    while (digitalRead(S1) == HIGH);   // Chờ nhả nút
+    delay(50);
+  }
+
+  if (digitalRead(S2) == HIGH) {
+    if (count > 0) {
+      count = count - 1;
+    }
+    hienThi();
+    while (digitalRead(S2) == HIGH);   // Chờ nhả nút
+    delay(50);
+  }
+}
+BÀI 5: CẢM BIẾN NHIỆT ĐỘ LM35 + LCD
+(LM35: Chân 1 → 5V, Chân 2 → A0, Chân 3 → GND. LCD nối giống Bài 4)
+
+cpp
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 255, 11, 0, 1, 2, 3, 4, 5, 6, 7);
+
+int sensorPin = A0;
+
+void setup() {
+  lcd.begin(16, 2);
+
+  lcd.setCursor(0, 0);
+  lcd.print("NHIET DO LM35");
+}
+
+void loop() {
+  int adc = analogRead(sensorPin);
+
+  float volt = adc * 5.0 / 1023.0;
+  float tempC = volt * 100.0;      // LM35: 10mV/°C
+
+  lcd.setCursor(0, 1);
+  lcd.print("T = ");
+  lcd.print(tempC, 1);             // In 1 chữ số thập phân
+  lcd.print(" C    ");
+
+  delay(500);
+}
