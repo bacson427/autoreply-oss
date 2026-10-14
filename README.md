@@ -144,13 +144,13 @@ Control your bot remotely in real-time by sending text messages to yourself or f
 
 | Command | Action | Example |
 |---|---|---|
-| `STATUS` or `CHECK` | Receive an instant live diagnostic report (switches, names, prompt, busy message) | `STATUS` |
-| `ENABLE_ALL` | Master switch ON: Activates automated message processing and AI responses | `ENABLE_ALL` |
-| `DISABLE_ALL` | Master switch OFF: Completely silences all auto-replies across all apps | `DISABLE_ALL` |
-| `ENABLE_AI` | Turn smart AI auto-reply ON (Groq &rarr; Gemini &rarr; Cloudflare fallback) | `ENABLE_AI` |
-| `DISABLE_AI` | Turn smart AI auto-reply OFF | `DISABLE_AI` |
-| `ENABLE_CHATBOT` | Turn busy auto-responder ON (sends template message instead of AI) | `ENABLE_CHATBOT` |
-| `DISABLE_CHATBOT` | Turn busy auto-responder OFF | `DISABLE_CHATBOT` |
+| `KIEM_TRA` (or `STATUS`) | Receive an instant live diagnostic report (switches, names, prompt, busy message) | `KIEM_TRA` |
+| `BAT_ALL` | Master switch ON: Activates automated message processing and AI responses | `BAT_ALL` |
+| `TAT_ALL` | Master switch OFF: Completely silences all auto-replies across all apps | `TAT_ALL` |
+| `BAT_AI` | Turn smart AI auto-reply ON (Groq &rarr; Gemini &rarr; Cloudflare fallback) | `BAT_AI` |
+| `TAT_AI` | Turn smart AI auto-reply OFF | `TAT_AI` |
+| `BAT_CHATBOT` | Turn busy auto-responder ON (sends template message instead of AI) | `BAT_CHATBOT` |
+| `TAT_CHATBOT` | Turn busy auto-responder OFF | `TAT_CHATBOT` |
 | `CHATBOT: <message>` | Update the custom busy reply message | `CHATBOT: Currently in a meeting, will reply shortly!` |
 | `AI: <prompt>` | Dynamically update the AI personality &amp; system instructions | `AI: You are a friendly, witty assistant. Reply naturally in 1 concise sentence.` |
 | `YES_NAME: <names>` | Whitelist contacts: Only auto-reply to listed senders (comma-separated; send empty `YES_NAME:` to clear) | `YES_NAME: Alice, Bob, Charlie` |
