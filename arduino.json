@@ -1,7 +1,7 @@
 Code đã được kiểm tra bằng AI đa lớp.
 
-BÀI 1: ĐIỀU KHIỂN LED (Chân 2 → 11)
-BT1a: 10 đèn sáng tắt cùng lúc
+👉BÀI 1: ĐIỀU KHIỂN LED (Chân 2 → 11)
+👉BT1a: 10 đèn sáng tắt cùng lúc
 
 void setup() {
   pinMode(2, OUTPUT);
@@ -44,7 +44,7 @@ void loop() {
   delay(500);
 }
 
-BT1b: Chớp tắt lần lượt 1 → 10 → 1 → 10…
+👉BT1b: Chớp tắt lần lượt 1 → 10 → 1 → 10…
 
 void setup() {
   pinMode(2, OUTPUT);
@@ -84,7 +84,7 @@ void loop() {
   digitalWrite(2, HIGH);  delay(150); digitalWrite(2, LOW);
 }
 
-BT2a: Đèn 1→10 sáng, rồi 1→10 tắt, lặp lại
+👉BT2a: Đèn 1→10 sáng, rồi 1→10 tắt, lặp lại
 
 void setup() {
   pinMode(2, OUTPUT);
@@ -124,7 +124,8 @@ void loop() {
   digitalWrite(10, LOW); delay(200);
   digitalWrite(11, LOW); delay(200);
 }
-BT2b: Chớp tắt ngẫu nhiên 1 đèn bất kỳ
+
+👉BT2b: Chớp tắt ngẫu nhiên 1 đèn bất kỳ
 
 void setup() {
   pinMode(2, OUTPUT);
@@ -149,9 +150,9 @@ void loop() {
   delay(100);
 }
 
-BÀI 2: NÚT NHẤN ĐIỀU KHIỂN LED
+👉BÀI 2: NÚT NHẤN ĐIỀU KHIỂN LED
 
-BT1: 8 LED (Chân 2→9) + 4 nút S1..S4 (Chân 10, 11, 12, 13)
+👉BT1: 8 LED (Chân 2→9) + 4 nút S1..S4 (Chân 10, 11, 12, 13)
 
 #define S1 10
 #define S2 11
@@ -212,7 +213,7 @@ void loop() {
     tatTatCaDen();
   }
 }
-BT2: 8 LED (Chân 2→9) + 2 nút S1 (Chân 10), S2 (Chân 11)
+👉BT2: 8 LED (Chân 2→9) + 2 nút S1 (Chân 10), S2 (Chân 11)
 
 #define S1 10
 #define S2 11
@@ -268,8 +269,8 @@ void loop() {
   }
 }
 
-BÀI 3: BUZZER / CÒI (Chân 8)
-BT1: 4 nút (Chân 2,3,4,5) = 4 âm khác nhau (Đô, Rê, Mi, Fa)
+👉BÀI 3: BUZZER / CÒI (Chân 8)
+👉BT1: 4 nút (Chân 2,3,4,5) = 4 âm khác nhau (Đô, Rê, Mi, Fa)
 
 #define BUZZER 8
 #define B1 2
@@ -298,7 +299,7 @@ void loop() {
   }
 }
 
-BT2: Bản nhạc yêu thích (Twinkle Twinkle)
+👉BT2: Bản nhạc yêu thích (Twinkle Twinkle)
 
 const int buzzerPin = 8;
 
@@ -332,7 +333,7 @@ void loop() {
   delay(3000);
 }
 
-BT3: Happy Birthday (Chép y sách)
+👉BT3: Happy Birthday (Chép y sách)
 
 const int buzzerPin = 8;
 
@@ -372,9 +373,9 @@ void loop() {
   delay(5000);
 }
 
-BÀI 4: MÀN HÌNH LCD 16x2
+👉BÀI 4: MÀN HÌNH LCD 16x2
 
-BT1: Hiển thị HỌ TÊN / MÃ SV / LỚP
+👉BT1: Hiển thị HỌ TÊN / MÃ SV / LỚP
 
 #include <LiquidCrystal.h>
 
@@ -392,7 +393,7 @@ void setup() {
 
 void loop() {
 }
-BT2: Bộ đếm lên/xuống 8 bit (Bắt đầu từ 3 số cuối MSSV)
+👉BT2: Bộ đếm lên/xuống 8 bit (Bắt đầu từ 3 số cuối MSSV)
 
 #include <LiquidCrystal.h>
 
@@ -452,7 +453,8 @@ void loop() {
     delay(50);
   }
 }
-BÀI 5: CẢM BIẾN NHIỆT ĐỘ LM35 + LCD
+
+👉BÀI 5: CẢM BIẾN NHIỆT ĐỘ LM35 + LCD
 (LM35: Chân 1 → 5V, Chân 2 → A0, Chân 3 → GND. LCD nối giống Bài 4)
 
 #include <LiquidCrystal.h>
